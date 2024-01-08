@@ -1,0 +1,42 @@
+@server = http://localhost:3000
+
+###
+POST {{server}}/comment
+Content-Type: application/json
+
+{
+  "name": "Test3",
+  "content": "This is a test comment3",
+  "password": "1234",
+  "postId": "659b62d51b98d80e63f641bd"
+}
+
+###삭제연습
+DELETE {{server}}/comment/60a6a9f734b6010015e4a102
+
+
+
+###
+POST {{server}}/blog
+Content-Type: application/json
+
+{
+  "title": "안녕하세요",
+  "content": "두번 인사드립니다.",
+  "name": "김두메"
+}
+
+###
+GET {{server}}/comment/659b62d51b98d80e63f641bd
+
+
+
+###
+PUT {{server}}/blog/3
+Content-Type: application/json
+
+{
+  "title": "타이틀 수정3",
+  "content": "본문 수정3",
+  "name:": "김운"
+}

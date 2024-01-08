@@ -1,0 +1,55 @@
+@server = http://localhost:3000/auth
+
+### 회원가입
+POST {{server}}/register
+content-type: application/json
+
+{
+  "email" : "woon@unist.ac.kr",
+  "password" : "1234",
+  "username" : "woon"
+}
+
+### 로그인
+POST {{server}}/login
+content-type: application/json
+
+{
+  "email" : "min@unist.ac.kr",
+  "password" : "1234"
+}
+
+### 로그인2
+POST {{server}}/login2
+content-type: application/json
+
+{
+  "email" : "min@unist.ac.kr",
+  "password" : "1234"
+}
+
+###가드 테스트
+GET {{server}}/test-guard
+
+
+### 로그인3
+POST {{server}}/login3
+content-type: application/json
+
+{
+  "email" : "min@unist.ac.kr",
+  "password" : "1234"
+}
+
+
+### 로그인3 틀린비번버전
+POST {{server}}/login3
+content-type: application/json
+
+{
+  "email" : "min@unist.ac.kr",
+  "password" : "12345"
+}
+
+### 인증 성공 테스트
+GET {{server}}/test-guard2

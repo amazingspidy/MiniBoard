@@ -1,0 +1,45 @@
+@server = http://localhost:3000/user
+
+
+### Create
+POST {{server}}/create
+content-type: application/json
+
+
+{
+  "username" : "wontak",
+  "password" : "0000",
+  "email" : "blkout@feverinc.org"
+}
+
+### GET USER
+GET {{server}}/getUser/vlindfiles@feverinc.org
+
+### GET USER
+GET {{server}}/getUser/blkout@feverinc.org
+
+
+### Update User
+PUT {{server}}/update/vlindfiles@feverinc.org 
+content-type: application/json 
+
+{
+  "username" : "woon kim",
+  "password" : "raw",
+  "email" : "vlindfiles@feverinc.org"
+}
+
+
+### Delete User
+DELETE {{server}}/delete/vlindfiles@feverinc.org
+
+### 잘못된 메일 입력
+POST {{server}}/create
+content-type: application/json 
+
+{
+  "username" : "woon kim",
+  "password" : "raw",
+  "email" : "vlindfiles.inc"
+
+}

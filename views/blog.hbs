@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Blog</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      padding: 30px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    .post {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .post h2 {
+      color: #007bff;
+    }
+
+    .post h3,
+    .post p {
+      color: #666;
+    }
+
+    form {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    form input[type="text"],
+    form textarea {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    form textarea {
+      height: 200px;
+    }
+
+    form input[type="submit"] {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    form input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    form #name {
+      width: 60%;
+    }
+
+    
+  </style>
+</head>
+
+<body>
+  <button onclick="goBack()">&#127968; 홈으로 가기</button>
+
+  <h1>당신의 꿀정보를 소개해주세요</h1>
+
+  <!-- 글 작성 폼 추가 -->
+   <!-- 글 작성 폼 추가 -->
+  <form action="/blog" method="POST" onsubmit="return confirm('글을 추가하겠습니까?');">
+    <h2>꿀정보 .. 보여 주나?</h2>
+    
+    <!-- '글쓴이' 입력란을 'Title' 보다 위로 올립니다. -->
+    <label for="name">글쓴이:</label><br>
+    <input type="text" id="name" name="name"><br>
+    
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title"><br>
+    
+    <label for="content">Content:</label><br>
+    <textarea id="content" name="content"></textarea><br>
+    
+    <!-- 패스워드 필드 추가 -->
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" pattern=".{1,}"
+      title="Password should be at least 1 character long"><br>
+    <input type="submit" value="Submit">
+  </form>
+  <!-- 글 작성 폼 끝 -->
+
+  <!-- '게시판'이라는 이름을 넣고 게시판느낌이 나는 이모티콘을 추가합니다. -->
+  <h2>📋 게시판</h2>
+
+  <div class="blog">
+    <!-- 반복문을 사용하여 모든 게시글을 순회 -->
+    {{#each posts}}
+    <div class="post">
+      <!-- 게시글의 제목을 클릭하면 해당 게시글의 상세 페이지로 이동 -->
+      <h2><a href="/blog/{{this._id}}">{{this.title}}</a></h2>
+      <p>작성자: {{this.name}}</p>
+    </div>
+    {{/each}}
+  </div>
+  <script>
+  function goBack() {
+      location.href = "/auth/success";
+    }
+  </script>
+</body>
+
+</html>

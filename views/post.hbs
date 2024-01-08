@@ -1,0 +1,299 @@
+<html>
+  <head>
+    <style>
+  .post {
+    margin: 2rem auto;
+    width: 60%;
+    border: 1px solid #ddd;
+    padding: 2rem;
+    border-radius: 10px;
+  }
+
+  .post h2 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .post p {
+    margin-bottom: 0.5rem;
+    color: #666;
+  }
+
+  .post button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .post button:hover {
+    background-color: #0056b3;
+  }
+
+  .comments {
+    margin-top: 2rem;
+  }
+
+  .comment {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .comment p {
+    margin-bottom: 0.5rem;
+  }
+
+  .comment-form {
+    margin-top: 2rem;
+  }
+
+  .comment-form form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .comment-form form input,
+  .comment-form form textarea {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  .comment-form form button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .comment-form form button:hover {
+    background-color: #1e7e34;
+  }
+
+  .comment {
+      font-size: 0.9em; /* 댓글의 글자 크기를 줄입니다. */
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #ddd;
+      background-color: #f9f9f9; /* 댓글 배경색을 바꿉니다. */
+      padding: 10px; /* 댓글 내부에 여백을 추가합니다. */
+      border-radius: 5px; /* 댓글의 모서리를 둥글게 만듭니다. */
+    }
+
+    .comment p {
+      margin-bottom: 0.5rem;
+    }
+
+    .comment button {
+      font-size: 0.8em; /* 댓글 수정/삭제 버튼의 글자 크기를 줄입니다. */
+      padding: 0.3rem 0.6rem; /* 버튼 내부의 여백을 줄입니다. */
+    }
+</style>
+
+</head>
+  <body>
+
+<div class="post">
+  <button onclick="goBack()">&#8592;블로그메인화면이동</button>
+  <h2>제목: {{post.title}}</h2>
+  <p>작성자: {{post.name}}</p>
+  <p>{{post.content}}</p>
+  {{!-- <p>생성 시기: {{post.createdAt}}</p>
+  <p>수정 시기: {{post.updatedAt}}</p> --}}
+  
+  
+
+  <!-- 및 삭제 버튼 -->
+  <button onclick="checkPassword('{{post._id}}')">게시글 수정</button>
+
+  <button onclick="deletePost('{{post._id}}')">게시글 삭제</button>
+
+  <!-- 수정 및 삭제 form -->
+  <form id="editForm" action="" method="POST" style="display: none">
+    <input type="hidden" name="_method" value="PUT">
+  </form>
+  <form id="deleteForm" action="" method="POST" style="display: none">
+    <input type="hidden" name="_method" value="DELETE">
+  </form>
+
+  <div class="comments">
+    <h3>댓글</h3>
+    {{#each comments}}
+    <div class="comment">
+      <p>작성자: {{this.name}}</p>
+      <p>{{this.content}}</p>
+      <button onclick="updateComment('{{this._id}}')">댓글 수정</button>
+      <button onclick="deleteComment('{{this._id}}')">댓글 삭제</button>
+    </div>
+    {{/each}}
+  </div>
+  <!-- 댓글 작성 form -->
+  <div class="comment-form">
+  <h3>댓글 작성</h3>
+  <form id="commentForm">
+    <input type="text" name="name" placeholder="이름" required />
+    <textarea name="content" placeholder="댓글 내용" required></textarea>
+    <input type="password" name="password" placeholder="비밀번호" required />
+    <input type="hidden" name="postId" value="{{post._id}}" />
+    <button type="submit">댓글 작성</button>
+  </form>
+</div>
+
+
+  <script>
+    function checkPassword(id) {
+      var password = prompt("패스워드를 입력해주세요");
+      if (password) {
+        fetch('/blog/' + id + '/check-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            password: password
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              location.href = "/blog/" + id + "/edit";
+            } else {
+              alert('비밀번호가 틀렸습니다.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+    }
+
+    function deletePost(id) {
+      var password = prompt("패스워드를 입력해주세요");
+      if (password) {
+        fetch('/blog/' + id, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            password: password
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('삭제 성공!'); // 삭제 성공 메시지 띄우기
+              location.href = "/blog"; // 확인을 누르면 '/blog' 페이지로 이동
+            } else {
+              alert(data.message); // 삭제에 실패했을 경우, 반환된 메시지를 알림창으로 띄움
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+    }
+    function goBack() {
+      location.href = "/blog";
+    }
+    
+    function updateComment(id) {
+      var password = prompt("패스워드를 입력해주세요");
+      var newContent = prompt("새 댓글 내용을 입력해주세요");
+      
+      if (password && newContent) {
+        fetch('/comment/' + id, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            password: password,
+            content: newContent,
+          }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('댓글 수정 성공!');
+            location.reload(); // 페이지를 새로고침하여 수정된 댓글을 반영
+          } else {
+            alert(data.error);  // 서버에서 전달한 에러 메시지를 보여줌
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      }
+    }
+
+
+
+function deleteComment(id) {
+  var password = prompt("패스워드를 입력해주세요");
+  if (password) {
+    fetch('/comment/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        password: password
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('댓글 삭제 성공!');
+          location.reload(); // 페이지를 새로고침하여 삭제된 댓글을 반영
+        } else {
+          alert(data.error);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+}
+  document.getElementById('commentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var name = e.target.elements.name.value;
+    var content = e.target.elements.content.value;
+    var password = e.target.elements.password.value;
+    var postId = e.target.elements.postId.value;
+
+    fetch('/comment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        content: content,
+        password: password,
+        postId: postId,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('댓글 작성 완료!');
+          location.reload();
+        } else {
+          alert(data.error);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+  </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!-- views/home.hbs -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>나의 옷장</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        a {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var errorMsg = urlParams.get('error_msg');
+
+            if (errorMsg) {
+                alert(errorMsg);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>나의 옷장에 오신 것을 환영합니다!</h1>
+
+    <p>로그인하여 당신만의 옷에 대한 경험을 소개해주세요.</p>
+    <form action="/auth/login3" method="post">
+        <input type="text" name="email" placeholder="email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="submit" value="로그인">
+    </form>
+    <p>아직 회원이 아니신가요? <a href="/auth/register">회원가입</a></p>
+
+</body>
+
+</html>
