@@ -14,6 +14,8 @@ import { Blog, BlogSchema } from './schemas/blog.schema';
 import { join } from 'path';
 import { CommentModule } from './comment/comment.module';
 import { CommentSchema, Comment } from './schemas/comment.schema';
+import { ClosetModule } from './closet/closet.module';
+
 import * as hbs from 'hbs';
 @Module({
   imports: [
@@ -28,16 +30,17 @@ import * as hbs from 'hbs';
     MongooseModule.forRoot(
       'mongodb+srv://2018ds21112:dh700328!!@cluster0.7y4lhxj.mongodb.net/blog', 
     ),
-
-    
-    
-
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, 'uploads'),
+      serveRoot: '/uploads',
+    }),
     UserModule,
     AuthModule,
     ConfigModule.forRoot(),
     HomeModule,
     BlogModule,
-    CommentModule,  //env설정을 읽어오도록 설정함.
+    CommentModule,
+    ClosetModule,  //env설정을 읽어오도록 설정함.
   ],
   controllers: [AppController],
   providers: [AppService],

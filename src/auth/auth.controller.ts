@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Request, Response, UseGuards, Res, Render, UnauthorizedException, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateUserDto } from 'src/user/user.dto';
 import { AuthService } from './auth.service';
-import { AutenticatedGuard, LocalAuthGuard, LoginGuard, GoogleAuthGuard } from './auth.guard';
+import { AutenticatedGuard, LocalAuthGuard, LoginGuard, GoogleAuthGuard, OrGuards } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -18,10 +18,10 @@ export class AuthController {
     //return await this.authService.register(userDto);
     try {
       await this.authService.register(userDto);
-      return { status: 'success', message: '회원가입 성공! 로그인 후 접속해주세요'};
+      return { status: 'success', message: '회원가입 성공! 로그인 후 접속해주세요' };
     }
     catch (err) {
-      return { status: 'failed', message: err.response};
+      return { status: 'failed', message: err.response };
     }
   }
 
@@ -71,17 +71,13 @@ export class AuthController {
   async login3(@Request() req, @Response() res) {
     //return res.redirect('success');
     const user = await this.authService.validateUser(req.body.email, req.body.password);
-      if (!user) {
-        console.log('불일치함.')
-        
-      }
-      
-      else {
-      //console.log(user);
+    if (!user) {
+      console.log('불일치함.')
+    }
+    else {
       req.user = user;
-
       return res.redirect('success');
-      }
+    }
   }
 
   @UseGuards(AutenticatedGuard)
@@ -90,6 +86,7 @@ export class AuthController {
   gotosuccess(@Request() req) {
     return { user: req.user };
   }
+
 
   @Get('to-google')
   @UseGuards(GoogleAuthGuard)
@@ -101,6 +98,10 @@ export class AuthController {
   async googleAuthRedirect(@Request() req, @Response() res) { //구글 로그인 성공시 실행하는 메서드
     const { user } = req;  // 요청에서 유저정보 뽑아내고
     req.session.user = user; // 세션에 유저 정보 저장
-    return res.redirect('/'); // 홈페이지로 리다이렉트
+    return res.redirect('success'); // 홈페이지로 리다이렉트
+    //return res.send(user);
   }
 }
+
+  
+

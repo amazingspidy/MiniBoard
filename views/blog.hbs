@@ -74,6 +74,15 @@
       width: 60%;
     }
 
+    h2 a {
+      color: black; /* 링크 색상을 흰색으로 설정 */
+      text-decoration: none; /* 밑줄 제거 */
+      transition: color 0.3s ease; /* 색상 전환 효과 추가 */
+    }
+
+    h2 a:hover {
+      color: #757bb1; /* 마우스를 올렸을 때 색상을 변경 */
+    }
     
   </style>
 </head>
@@ -86,7 +95,7 @@
   <!-- 글 작성 폼 추가 -->
    <!-- 글 작성 폼 추가 -->
   <form action="/blog" method="POST" onsubmit="return confirm('글을 추가하겠습니까?');">
-    <h2>꿀정보 .. 보여 주나?</h2>
+    <h2 style = " font-size: 200%;">꿀정보 .. 보여 주나?</h2>
     
     <!-- '글쓴이' 입력란을 'Title' 보다 위로 올립니다. -->
     <label for="name">글쓴이:</label><br>
@@ -107,7 +116,7 @@
   <!-- 글 작성 폼 끝 -->
 
   <!-- '게시판'이라는 이름을 넣고 게시판느낌이 나는 이모티콘을 추가합니다. -->
-  <h2>📋 게시판</h2>
+  <h2 style = " font-size: 300%;" >📋 게시판</h2>
 
   <div class="blog">
     <!-- 반복문을 사용하여 모든 게시글을 순회 -->

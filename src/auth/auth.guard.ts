@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable , UnauthorizedException} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { Observable} from 'rxjs';
 
 @Injectable()
 export class LoginGuard implements CanActivate {
@@ -57,14 +58,23 @@ export class LocalAuthGuard extends AuthGuard('local') { //AuthGuard 상속
   }
 }
 
-//요청이 인증되었는지 확인하고, 인증되었을 경우에만 요청을 허용하는 역할
 @Injectable()
-export class AutenticatedGuard implements CanActivate{
-  canActivate(context: ExecutionContext): boolean {
+export class AutenticatedGuard implements CanActivate {
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
+    const response = context.switchToHttp().getResponse();
+    
     console.log('canActivate is called');
     console.log('isAuthenticated:', request.isAuthenticated());
-    return request.isAuthenticated();
+    
+    if (request.isAuthenticated()) {
+      return true;
+    } else {
+      response.redirect('/?message=' + encodeURIComponent('세션이 초기화되었습니다. 재로그인해주세요.'));
+      throw new UnauthorizedException(); // 허가되지 않은 요청에 대해 예외를 던집니다.
+    }
   }
 }
 
@@ -77,5 +87,17 @@ export class GoogleAuthGuard extends AuthGuard('google') {
     const request = context.switchToHttp().getRequest();
     await super.logIn(request); // 세션에 적용함.
     return result;
+  }
+}
+
+
+@Injectable()
+export class OrGuards implements CanActivate {
+  constructor(private guard1: AutenticatedGuard, private guard2: GoogleAuthGuard) {}
+
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
+    return this.guard1.canActivate(context) || this.guard2.canActivate(context);
   }
 }

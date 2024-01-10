@@ -1,0 +1,39 @@
+@server = http://localhost:3000
+
+
+### 게시글 올리기.
+POST {{server}}/closet/createcloset
+Content-Type: application/json
+
+{
+  "writer": "한영수",
+  "item_name": "fff",
+  "point" : "fff.",
+  "spec" : "fff",
+  "actual_img" : "djfakl;fdsf"
+
+}
+
+# export interface ClosetDto{
+#   id: string;
+#   writer: string
+#   item_name: string;
+#   point: string;
+#   spec: string;
+#   actual_img?: string;  //필수 ㄴㄴ
+#   product_img: string; // 필수 ㅇㅇ
+# }
+
+###
+GET {{server}}/closet/writers
+
+###
+POST {{server}}/closet/file-upload
+Content-Type: multipart/form-data; boundary=image-file-upload
+
+--image-file-upload
+Content-Disposition: form-data; name="file"; filename="google_logo.png"
+Content-Type: image/png
+
+< google_logo.png
+--image-file-upload--

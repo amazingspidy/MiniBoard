@@ -26,7 +26,7 @@ async function bootstrap() {
       resave: false,  //세션 항상 저장할지 여부
       saveUninitialized: false,
       cookie: {
-        maxAge: 600000,
+        maxAge: 1000000,
         httpOnly: true,
         secure: false,
       }, //10초
@@ -35,13 +35,12 @@ async function bootstrap() {
 
   app.use(passport.initialize());
   app.use(passport.session());
-
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
   hbs.registerPartials(join(__dirname, '..', 'views/partials'));
   app.use(methodOverride('_method'));
-
+  app.useStaticAssets(join(__dirname,'..', 'static'));
   await app.listen(3000);
 }
 bootstrap();

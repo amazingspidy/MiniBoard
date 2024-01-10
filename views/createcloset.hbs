@@ -1,0 +1,39 @@
+{{!-- <section>
+    <h2>나의 옷장 꾸미기</h2>
+    <button onclick="window.location.href='/closet'">뒤로가기</button>
+    <form action="/closet/createcloset" method="POST" enctype="multipart/form-data">
+        <label for="writer">작성자:</label><br>
+        <input type="text" id="writer" name="writer"><br>
+        <label for="item_name">아이템 이름:</label><br>
+        <input type="text" id="item_name" name="item_name"><br>
+        <label for="point">포인트:</label><br>
+        <input type="text" id="point" name="point"><br>
+        <label for="spec">스펙:</label><br>
+        <input type="text" id="spec" name="spec"><br>
+        <label for="actual_img">실물 이미지:</label><br>
+        <input type="text" id="actual_img" name="actual_img"><br>
+        <label for="product_img">상품 이미지:</label><br>
+        <input type="text" id="product_img" name="product_img"><br>
+        <input type="submit" value="옷장에 추가">
+    </form>
+</section> --}}
+
+<section>
+    <h2>나의 옷장 꾸미기</h2>
+    <button onclick="window.location.href='/closet'">뒤로가기</button>
+    <form action="createcloset" method="POST">
+        <label for="writer">작성자:</label><br>
+        <input type="text" id="writer" name="writer"><br>
+        <label for="item_name">아이템 이름:</label><br>
+        <input type="text" id="item_name" name="item_name"><br>
+        <label for="point">포인트:</label><br>
+        <input type="text" id="point" name="point"><br>
+        <label for="spec">스펙:</label><br>
+        <input type="text" id="spec" name="spec"><br>
+        {{!-- <label for="actual_img">실물 이미지 URL:</label><br>
+        <input type="text" id="actual_img" name="actual_img"><br>
+        <label for="product_img">상품 이미지 URL:</label><br>
+        <input type="text" id="product_img" name="product_img"><br> --}}
+        <input type="submit" value="옷장에 추가">
+    </form>
+</section>
