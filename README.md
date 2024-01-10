@@ -6,7 +6,8 @@
 ## _스택_
 백엔드: Nest.js (express 기반)  
 
-템플릿엔진: Handlebar 사용.
+템플릿엔진: Handlebar 사용.  
+
 DB: 회원가입은 SQLite 사용, 그외는 MongoDB (Mongoose 라이브러리 사용)
 
 # 기능
