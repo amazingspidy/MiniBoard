@@ -10,6 +10,6 @@ import { BlogMongoRepository } from 'src/blog/blog.repository';
   controllers: [ClosetController],
   imports: [MongooseModule.forFeature([{ name: Closet.name, schema: ClosetSchema}])],
   providers: [ClosetService, ClosetMongoRepository],
-  exports: [ClosetMongoRepository],
+  exports: [ClosetMongoRepository, ClosetService],
 })
 export class ClosetModule {}

@@ -2,56 +2,145 @@
 <html>
 
 <head>
-  <title>회원가입</title>
+    <title>모두의 옷장 회원가입</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            width: 350px;
+            background-color: #fff;
+            border: 1px solid #e6e6e6;
+            padding: 20px 40px;
+            border-radius: 1px;
+            box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #262626;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 0.9em;
+            color: #999999;
+            margin-bottom: 0.2em;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
+            padding: 9px 0 7px 8px;
+            margin-bottom: 20px;
+            border-radius: 3px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background-color: #3897f0;
+            color: #fff;
+            padding: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .google-login-btn {
+            width: 100%;
+            background: #DB4437;
+            color: #fff;
+            padding: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        p, h5 {
+            color: #262626;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        a {
+            color: #3897f0;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
-  <h1>회원가입</h1>
-  <form action="/auth/register" method="post">
-    <label for="email">이메일:</label>
-    <input type="email" id="email" name="email" required>
-    <br>
-    <label for="password">비밀번호:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <label for="username">사용자 이름:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
+    <div class="register-container">
+        <h1>회원가입</h1>
+        <form>
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required>
+            <label for="username">사용자 이름:</label>
+            <input type="text" id="username" name="username" required>
+            <button type="submit">회원가입</button>
+            <p>구글로 회원가입 하시겠어요?</p>
+            <h5>구글 회원정보를 입력하시면 회원가입완료됩니다.</h5>
+            <div class="button-container">
+                <a href="/auth/to-google" class="google-login-btn">Google로 회원가입</a>
+            </div>
+        </form>
+    </div>
 
-    <button type="submit">회원가입</button>
-  </form>
-  <p>구글로 회원가입 하시겠어요?</p>
-  <h5>구글 회원정보를 입력하시면 회원가입완료됩니다.</h5>
-  <a href="/auth/to-google">Google로 회원가입</a>
+    <script>
+        document.querySelector('form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const email = document.querySelector('#email').value;
+          const password = document.querySelector('#password').value;
+          const username = document.querySelector('#username').value;
 
-  <script>
-    document.querySelector('form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.querySelector('#email').value;
-      const password = document.querySelector('#password').value;
-      const username = document.querySelector('#username').value;
+          const response = await fetch('/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password, username }),
+          });
 
-      const response = await fetch('/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, username }),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        alert(result.message);
-        if (result.status ==='success') {
-        location.href = '/'; // 홈 화면으로 리다이렉트
-        }
-        else {
-          location.href = '/auth/register';
-        }
-      } else {
-        const error = await response.json();
-        alert(error.message);
-      }
-    });
-  </script>
+          if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+            if (result.status ==='success') {
+            location.href = '/'; // 홈 화면으로 리다이렉트
+            }
+            else {
+              location.href = '/auth/register';
+            }
+          } else {
+            const error = await response.json();
+            alert(error.message);
+          }
+        });
+    </script>
 </body>
 
 </html>

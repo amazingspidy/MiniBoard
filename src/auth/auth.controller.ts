@@ -2,10 +2,10 @@ import { Body, Controller, Get, Post, Request, Response, UseGuards, Res, Render,
 import { CreateUserDto } from 'src/user/user.dto';
 import { AuthService } from './auth.service';
 import { AutenticatedGuard, LocalAuthGuard, LoginGuard, GoogleAuthGuard, OrGuards } from './auth.guard';
-
+import { ClosetService } from 'src/closet/closet.service';
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private closetService: ClosetService) { }
 
 
   @Get('register')
@@ -83,8 +83,11 @@ export class AuthController {
   @UseGuards(AutenticatedGuard)
   @Get('success')
   @Render('authentichome')
-  gotosuccess(@Request() req) {
-    return { user: req.user };
+  async gotosuccess(@Request() req) {
+    console.log('모든 옷장 가져오기');
+    const closets = await this.closetService.getAllCloset();
+    //console.log(closets);
+    return { user: req.user, closets: JSON.stringify(closets) };
   }
 
 

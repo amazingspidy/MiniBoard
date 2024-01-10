@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>나의 옷장</title>
+    <title>모두의 옷장</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,6 +37,67 @@
         a:hover {
             background-color: #0056b3;
         }
+        
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        .carousel {
+        display: flex;
+        animation: slide 10s linear infinite;
+        scroll-behavior: smooth;
+        }
+
+        .carousel img {
+        flex: 0 0 auto;
+        width: 300px;  /* 너비를 200px로 설정 */
+        height: 300px; /* 높이를 200px로 설정 */
+        object-fit: cover; /* 이미지 비율을 유지하면서 적절히 잘라내기 */
+        scroll-snap-align: center;
+        }
+        
+        h2 {
+        font-family: 'Arial', sans-serif; /* 글꼴 설정 */
+        font-size: 32px; /* 글자 크기 설정 */
+        color: #FF6347; /* 글자색 설정 */
+        text-align: center; /* 중앙 정렬 */
+        border: 2px solid #FF6347; /* 테두리 설정 */
+        padding: 10px; /* 패딩 설정 */
+        background-color: #060f18; /* 배경색 설정 */
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* 그림자 효과 */
+        border-radius: 15px; /* 모서리 둥글게 */
+        }
+        .closet-link {
+        font-family: 'Arial', sans-serif; /* 글꼴 설정 */
+        font-size: 32px; /* 글자 크기 설정 */
+        color: #FF6347; /* 글자색 설정 */
+        text-align: center; /* 중앙 정렬 */
+        border: 2px solid #FF6347; /* 테두리 설정 */
+        padding: 10px; /* 패딩 설정 */
+        background-color: #060f18; /* 배경색 설정 */
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* 그림자 효과 */
+        border-radius: 15px; /* 모서리 둥글게 */
+        text-decoration: none; /* 링크 밑줄 제거 */
+        display: inline-block; /* 중앙 정렬을 위한 설정 */
+        }
+
+        .blog-link {
+        font-family: 'Arial', sans-serif; /* 글꼴 설정 */
+        font-size: 32px; /* 글자 크기 설정 */
+        color: #15dd61; /* 글자색 설정 */
+        text-align: center; /* 중앙 정렬 */
+        border: 2px solid #15dd61; /* 테두리 설정 */
+        padding: 10px; /* 패딩 설정 */
+        background-color: #060f18; /* 배경색 설정 */
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* 그림자 효과 */
+        border-radius: 15px; /* 모서리 둥글게 */
+        text-decoration: none; /* 링크 밑줄 제거 */
+        display: inline-block; /* 중앙 정렬을 위한 설정 */
+        }
     </style>
 </head>
 
@@ -46,8 +107,41 @@
     <p>{{user.username}} 님, 반갑습니다!</p>
 
     <!-- 블로그로 이동 버튼 추가 -->
-    <a href="/blog">📖 블로그로 이동</a>
-    <a href="/closet">👚 옷장으로 이동</a>
+    <a href="/blog" class="blog-link">📖 커뮤니티로 이동</a>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2> 옷장에서 사람들의 야물딱진 옷들을 구경하세요! </h2>
+    <div class="carousel">
+    <!-- 이미지가 여기에 추가됩니다 -->
+    </div>
+    <a href="/closet" class="closet-link">👚 옷장으로 이동</a>
+    <script>
+        window.onload = function() {
+        const carousel = document.querySelector('.carousel');
+        const closets = JSON.parse('{{{closets}}}'); // 서버로부터 받은 데이터
+
+        closets.forEach(closet => {
+            const img = document.createElement('img');
+            img.src = closet.actual_img;
+            img.alt = closet.name; // alt 속성 추가
+            carousel.appendChild(img);
+        });
+
+        // 이미지 복사
+        const carouselImages = Array.from(carousel.children);
+        carouselImages.forEach(img => {
+            const clone = img.cloneNode(true);
+            carousel.appendChild(clone);
+        });
+    }
 
     </script>
 </body>

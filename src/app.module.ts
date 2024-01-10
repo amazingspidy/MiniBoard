@@ -31,7 +31,7 @@ import * as hbs from 'hbs';
       'mongodb+srv://2018ds21112:dh700328!!@cluster0.7y4lhxj.mongodb.net/blog', 
     ),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, 'uploads'),
+      rootPath: join(__dirname, '..', '..', 'nest-auth-test', 'uploads'),
       serveRoot: '/uploads',
     }),
     UserModule,

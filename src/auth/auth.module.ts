@@ -5,13 +5,14 @@ import { UserModule } from 'src/user/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { SessionSerializer } from './session.serializer';
 import { LocalStrategy } from './local.strategy';
-import { GoogleStrategy  } from './google.strategy';
+import { GoogleStrategy } from './google.strategy';
+import { ClosetModule } from 'src/closet/closet.module';
 import { AutenticatedGuard, GoogleAuthGuard, OrGuards } from './auth.guard';
 
 @Module({
-  imports: [UserModule, PassportModule.register({ session: true})],
+  imports: [UserModule, ClosetModule, PassportModule.register({ session: true })],
   providers: [AuthService, LocalStrategy, SessionSerializer, GoogleStrategy, AutenticatedGuard, GoogleAuthGuard, OrGuards],
   controllers: [AuthController],
   exports: [OrGuards],
 })
-export class AuthModule {}
+export class AuthModule { }

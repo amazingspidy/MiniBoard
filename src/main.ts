@@ -40,7 +40,9 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   hbs.registerPartials(join(__dirname, '..', 'views/partials'));
   app.use(methodOverride('_method'));
-  app.useStaticAssets(join(__dirname,'..', 'static'));
+ // app.useStaticAssets(join(__dirname,'..', '..','uploads'));
+  app.useStaticAssets(join(__dirname, '..', '..', 'nest-auth-test', 'uploads'));
+
   await app.listen(3000);
 }
 bootstrap();

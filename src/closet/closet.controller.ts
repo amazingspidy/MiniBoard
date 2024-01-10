@@ -51,7 +51,7 @@ export class ClosetController {
   fileUpload(@UploadedFile() file: Express.Multer.File, @Body('item_id') item_id: string, @Body('writer') writer: string, @Res() res: Response) {
     console.log(file);
     console.log(item_id);
-    const image_path = 'http://localhost:3000/uploads/' + file.filename;
+    const image_path = 'http://localhost:3000/' + file.filename;
     this.closetService.updateImage(item_id, image_path);
     res.redirect(`/closet/${writer}`);
   }
